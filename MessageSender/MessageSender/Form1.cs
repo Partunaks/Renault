@@ -14,53 +14,43 @@ using System.IO;
 using System.Diagnostics;
 
 
-
 namespace MessageSender
 {
     public partial class AnalysisApp : Form
     {
+        public void clear()
+        {
+            ObjExcel1 = null;
+            ObjWorkSheet1 = null;
+            GC.Collect();
+            Process[] List;
+            List = Process.GetProcessesByName("EXCEL");
+            foreach (Process proc in List)
+            {
+                proc.Kill();
+            }
+
+        }
         Excel.Application ObjExcel1;
         Excel.Worksheet ObjWorkSheet1;
-        //Directory.GetFiles(@"","Analysis_old.xlsx",);
         String file = Path.GetFullPath("Analysis.xlsx");
-        string [] status = {"Выдан/in use","На складе/in store","Доступен/Avaible","Зарезервирован/reserved","К отправке/to be returned","Не найден/not found","Сломан/broken"};
-        string[] email = {"alexandre.timofeyev@renault.com"};
+        string[] status = { "Выдан/in use", "На складе/in store", "Доступен/Avaible", "Зарезервирован/reserved", "К отправке/to be returned", "Не найден/not found", "Сломан/broken" };
+        string[] email = { "alexandre.timofeyev@renault.com" };
+        string[] building = {"B1","B2","B3","B4","BD","CLE","Шоколад","Metropole","Другое/other","HP","Учебный центр, Волгоградский, 42К5","Black&White","Жукова","K4","RN Bank"};
         public AnalysisApp()
         {
             InitializeComponent();
             StatusBox.Items.AddRange(status);
             emailbox.Items.AddRange(email);
+            BuildingBox.Items.AddRange(building);
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SendMsg_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void GetData_Click(object sender, EventArgs e)
         {
-            //String[] files;
-          //files = Directory.GetFiles("","Analysis_old.xlsx",SearchOption.AllDirectories);
+            
             ObjExcel1 = new Excel.Application
             {
                 DisplayAlerts = false //Отключение предупреждений                                 
@@ -81,18 +71,10 @@ namespace MessageSender
             {
 
                 MessageBox.Show("Ошибка\n" + "Проверьте введенное имя компьютера", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             SendMsg.Enabled = true;
-            ObjWorkBook = null;
-            ObjExcel1 = null;
-            ObjWorkSheet1 = null;
-            GC.Collect();
-            Process[] List;
-            List = Process.GetProcessesByName("EXCEL");
-            foreach (Process proc in List)
-            {
-                proc.Kill();
-            }
+            clear();
             SendMsg.Enabled = true;
         }
 
@@ -105,8 +87,6 @@ namespace MessageSender
                 DisplayAlerts = false //Отключение предупреждений                                 
             };
 
-           // String[] files;
-            //files = Directory.GetFiles(@"", "Analysis", SearchOption.AllDirectories);
             Microsoft.Office.Interop.Excel.Workbook ObjWorkBook = ObjExcel1.Workbooks.Open(file, 0, false, 5, "", "", false, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "", true, false, 0, true, false, false);
             ObjWorkSheet1 = (Microsoft.Office.Interop.Excel.Worksheet)ObjWorkBook.Sheets[1];
             Microsoft.Office.Interop.Excel.Range range = ObjWorkSheet1.get_Range("E:E").Find(PCName2.Text);
@@ -115,17 +95,17 @@ namespace MessageSender
                 SerialNum2.Text = ObjWorkSheet1.get_Range("D" + range.Row.ToString()).Value2;
                 PCModel2.Text = ObjWorkSheet1.get_Range("C" + range.Row.ToString()).Value2;
                 IPN2.Text = ObjWorkSheet1.get_Range("L" + range.Row.ToString()).Value2;
-                Building.Text = ObjWorkSheet1.get_Range("O" + range.Row.ToString()).Value2;
-                //Room.Text = ObjWorkSheet1.get_Range("P" + range.Row.ToString()).Value2;
+                BuildingBox.Text = ObjWorkSheet1.get_Range("O" + range.Row.ToString()).Value2;
+                Room.Text =Convert.ToString(ObjWorkSheet1.get_Range("P" + range.Row.ToString()).Value2);
                 StatusBox.Text = ObjWorkSheet1.get_Range("K" + range.Row.ToString()).Value;
             }
 
             catch (Exception ex)
             {
 
-                MessageBox.Show("Ошибка\n" + ex + "Проверьте введенное имя компьютера", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка\n" + "Проверьте введенное имя компьютера.Возможно компьютера нет в списке", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-
 
             Accept.Enabled = true;
         }
@@ -134,32 +114,24 @@ namespace MessageSender
         {
             try
             {
-                //String[] files;
-                //files = Directory.GetFiles(@"", "Analysis", SearchOption.AllDirectories);
                 Microsoft.Office.Interop.Excel.Range range = ObjWorkSheet1.get_Range("E:E").Find(PCName2.Text);
                 ObjWorkSheet1.get_Range("D" + range.Row.ToString()).Value2 = SerialNum2.Text;
                 ObjWorkSheet1.get_Range("C" + range.Row.ToString()).Value2 = PCModel2.Text;
                 ObjWorkSheet1.get_Range("L" + range.Row.ToString()).Value2 = IPN2.Text;
-                ObjWorkSheet1.get_Range("O" + range.Row.ToString()).Value2 = Building.Text;
-                //Room.Text = ObjWorkSheet1.get_Range("P" + range.Row.ToString()).Value;
+                ObjWorkSheet1.get_Range("O" + range.Row.ToString()).Value2 = BuildingBox.Text;
+                ObjWorkSheet1.get_Range("P" + range.Row.ToString()).Value = Room.Text;
                 ObjWorkSheet1.get_Range("K" + range.Row.ToString()).Value = StatusBox.Text;
-                ObjWorkSheet1.SaveAs(file);            
-                ObjExcel1 = null;
-                ObjWorkSheet1 = null;
-                GC.Collect();
-                Process[] List;
-                List = Process.GetProcessesByName("EXCEL");
-                foreach (Process proc in List)
-                {
-                    proc.Kill();
-                }
+                ObjWorkSheet1.SaveAs(file);
+                clear();
                 MessageBox.Show("Файл успешно сохранен!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 PCName2.Text = "";
                 PCModel2.Text = "";
                 SerialNum2.Text = "";
-                Building.Text = "";
+                BuildingBox.Text = "";
                 IPN2.Text = "";
+                Room.Text = "";
                 StatusBox.Text = "";
+                clear();
                 Accept.Enabled = false;
             }
             catch (Exception ex)
@@ -185,7 +157,7 @@ namespace MessageSender
                 Outlook.MailItem mail = (Outlook.MailItem)_app.CreateItem(Outlook.OlItemType.olMailItem);
                 mail.To = emailbox.Text;
                 mail.Subject = "Выдан ноутбук" + " " + PCModel.Text + " " + UserName.Text;
-                mail.Body = "Выдан ноутбук:" + UserName.Text + "\n" + "IPN пользователя:" + IPN1.Text + "\n\n\n\n" + "Имя компьютера:" + PCName1.Text + "\n" + "Серийный номер компьютера:" + SerialNum1.Text;
+                mail.Body = "Выдан ноутбук:"+"  " + UserName.Text + "\n" + "IPN пользователя:" + "  " + IPN1.Text + "\n\n\n\n" + "Имя компьютера:" + "  " + PCName1.Text + "\n" + "Серийный номер компьютера:" + "  " + SerialNum1.Text+"\n"+"Модель компьютера:" + "  "+PCModel.Text;
                 mail.Importance = Outlook.OlImportance.olImportanceNormal;
                 ((Outlook.MailItem)mail).Send();
                 MessageBox.Show("Ваше сообщение отправлено!","",MessageBoxButtons.OK,MessageBoxIcon.Information);
@@ -207,6 +179,11 @@ namespace MessageSender
         private void label6_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void AnalysisApp_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            clear();
         }
     }
 }

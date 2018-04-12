@@ -31,8 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalysisApp));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.emailbox = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.SendMsg = new System.Windows.Forms.Button();
             this.GetData = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.UserName = new System.Windows.Forms.TextBox();
@@ -45,6 +48,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.PCName1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.BuildingBox = new System.Windows.Forms.ComboBox();
+            this.StatusBox = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Accept = new System.Windows.Forms.Button();
@@ -53,7 +58,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.Room = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.Building = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,10 +66,6 @@
             this.SerialNum2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.PCName2 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.emailbox = new System.Windows.Forms.ComboBox();
-            this.StatusBox = new System.Windows.Forms.ComboBox();
-            this.SendMsg = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -109,6 +109,23 @@
             this.tabPage1.Text = "Оформление пропуска";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // emailbox
+            // 
+            this.emailbox.FormattingEnabled = true;
+            this.emailbox.Location = new System.Drawing.Point(263, 163);
+            this.emailbox.Name = "emailbox";
+            this.emailbox.Size = new System.Drawing.Size(219, 21);
+            this.emailbox.TabIndex = 27;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(260, 137);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 13);
+            this.label13.TabIndex = 26;
+            this.label13.Text = "E-mail:";
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
@@ -127,6 +144,17 @@
             this.groupBox2.Size = new System.Drawing.Size(200, 100);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
+            // 
+            // SendMsg
+            // 
+            this.SendMsg.Enabled = false;
+            this.SendMsg.Location = new System.Drawing.Point(28, 67);
+            this.SendMsg.Name = "SendMsg";
+            this.SendMsg.Size = new System.Drawing.Size(150, 23);
+            this.SendMsg.TabIndex = 14;
+            this.SendMsg.Text = "Отправить сообщение";
+            this.SendMsg.UseVisualStyleBackColor = true;
+            this.SendMsg.Click += new System.EventHandler(this.SendMsg_Click_1);
             // 
             // GetData
             // 
@@ -223,6 +251,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.BuildingBox);
             this.tabPage2.Controls.Add(this.StatusBox);
             this.tabPage2.Controls.Add(this.pictureBox1);
             this.tabPage2.Controls.Add(this.groupBox1);
@@ -230,7 +259,6 @@
             this.tabPage2.Controls.Add(this.label12);
             this.tabPage2.Controls.Add(this.Room);
             this.tabPage2.Controls.Add(this.label11);
-            this.tabPage2.Controls.Add(this.Building);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.label9);
             this.tabPage2.Controls.Add(this.label7);
@@ -244,13 +272,29 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(515, 472);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Привязка/Отвязка";
+            this.tabPage2.Text = "Данные о ПК";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // BuildingBox
+            // 
+            this.BuildingBox.FormattingEnabled = true;
+            this.BuildingBox.Location = new System.Drawing.Point(6, 291);
+            this.BuildingBox.Name = "BuildingBox";
+            this.BuildingBox.Size = new System.Drawing.Size(182, 21);
+            this.BuildingBox.TabIndex = 38;
+            // 
+            // StatusBox
+            // 
+            this.StatusBox.FormattingEnabled = true;
+            this.StatusBox.Location = new System.Drawing.Point(8, 213);
+            this.StatusBox.Name = "StatusBox";
+            this.StatusBox.Size = new System.Drawing.Size(121, 21);
+            this.StatusBox.TabIndex = 37;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(246, 248);
+            this.pictureBox1.Location = new System.Drawing.Point(245, 250);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(258, 216);
             this.pictureBox1.TabIndex = 36;
@@ -319,13 +363,6 @@
             this.label11.TabIndex = 28;
             this.label11.Text = "Комната:";
             // 
-            // Building
-            // 
-            this.Building.Location = new System.Drawing.Point(6, 280);
-            this.Building.Name = "Building";
-            this.Building.Size = new System.Drawing.Size(100, 20);
-            this.Building.TabIndex = 27;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -393,52 +430,18 @@
             this.PCName2.Size = new System.Drawing.Size(104, 20);
             this.PCName2.TabIndex = 0;
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(260, 137);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(38, 13);
-            this.label13.TabIndex = 26;
-            this.label13.Text = "E-mail:";
-            // 
-            // emailbox
-            // 
-            this.emailbox.FormattingEnabled = true;
-            this.emailbox.Location = new System.Drawing.Point(263, 163);
-            this.emailbox.Name = "emailbox";
-            this.emailbox.Size = new System.Drawing.Size(219, 21);
-            this.emailbox.TabIndex = 27;
-            // 
-            // StatusBox
-            // 
-            this.StatusBox.FormattingEnabled = true;
-            this.StatusBox.Location = new System.Drawing.Point(8, 213);
-            this.StatusBox.Name = "StatusBox";
-            this.StatusBox.Size = new System.Drawing.Size(121, 21);
-            this.StatusBox.TabIndex = 37;
-            // 
-            // SendMsg
-            // 
-            this.SendMsg.Enabled = false;
-            this.SendMsg.Location = new System.Drawing.Point(28, 67);
-            this.SendMsg.Name = "SendMsg";
-            this.SendMsg.Size = new System.Drawing.Size(150, 23);
-            this.SendMsg.TabIndex = 14;
-            this.SendMsg.Text = "Отправить сообщение";
-            this.SendMsg.UseVisualStyleBackColor = true;
-            this.SendMsg.Click += new System.EventHandler(this.SendMsg_Click_1);
-            // 
             // AnalysisApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(523, 494);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "AnalysisApp";
             this.Text = "AnalysisApp";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AnalysisApp_FormClosed);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -474,7 +477,6 @@
         private System.Windows.Forms.Button FindPC;
         private System.Windows.Forms.TextBox Room;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox Building;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
@@ -491,6 +493,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox StatusBox;
         private System.Windows.Forms.Button SendMsg;
+        private System.Windows.Forms.ComboBox BuildingBox;
     }
 }
 
